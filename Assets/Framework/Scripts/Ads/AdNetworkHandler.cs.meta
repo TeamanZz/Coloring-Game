@@ -1,0 +1,31 @@
+fileFormatVersion: 2
+guid: c5c9362bbf2ab4e0fb1c31e653ba00ca
+labels:
+- adcolony
+- admob
+- ads
+- android
+- applovin
+- banner
+- chartboost
+- interstitial
+- ios
+- ironsource
+- mediation
+- mobile
+- mobileads
+- mopub
+- reward
+- rewardads
+- rewardvideo
+- unityads
+- video
+- vungle
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
