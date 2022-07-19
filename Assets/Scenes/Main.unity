@@ -8290,7 +8290,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 35
     m_Right: 35
-    m_Top: 10
+    m_Top: 25
     m_Bottom: 35
   m_ChildAlignment: 0
   m_StartCorner: 0
@@ -12407,7 +12407,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 35
     m_Right: 35
-    m_Top: 10
+    m_Top: 25
     m_Bottom: 35
   m_ChildAlignment: 0
   m_StartCorner: 0
