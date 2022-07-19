@@ -13,6 +13,7 @@ namespace BizzyBeeGames.PictureColoring
         [Header("UI")]
         [SerializeField] private Toggle bucketToggle;
         [SerializeField] private TextMeshProUGUI bucketsCountText;
+        [SerializeField] private CustomBucketToggle customBucketToggle;
 
         [Header("Data")]
         [SerializeField] private List<CategoryData> categories = null;
@@ -105,7 +106,11 @@ namespace BizzyBeeGames.PictureColoring
             {
                 bucketActive = true;
             }
-            else bucketActive = false;
+            else
+            {
+                bucketActive = false;
+                customBucketToggle.InactiveButton();
+            }
         }
 
         /// <summary>
@@ -247,6 +252,8 @@ namespace BizzyBeeGames.PictureColoring
                         {
                             bucketActive = false;
                             bucketToggle.interactable = false;
+                            bucketsCountText.text = ""; 
+                            customBucketToggle.InactiveButton();
                         }
 
                     }

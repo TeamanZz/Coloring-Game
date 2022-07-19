@@ -8,8 +8,12 @@ public class CustomBucketToggle : MonoBehaviour
     public Color activeColor;
     public Color inactiveColor;
 
+    public Color inactiveBackgroundColor;
+
     public Image toggleBackground;
     public Image iconColor;
+
+    public Image countView;
 
     public void Awake()
     { 
@@ -19,6 +23,7 @@ public class CustomBucketToggle : MonoBehaviour
 
     public void ButtonProcessing(bool isSelected)
     {
+        countView.gameObject.SetActive(true);
         switch(isSelected)
         {
             case false:
@@ -31,5 +36,13 @@ public class CustomBucketToggle : MonoBehaviour
                 iconColor.color = inactiveColor;
                 break;
         }
+    }
+
+    [ContextMenu("Inactive")]
+    public void InactiveButton()
+    {
+        toggleBackground.color = inactiveBackgroundColor;
+        iconColor.color = inactiveColor;
+        countView.gameObject.SetActive(false);
     }
 }

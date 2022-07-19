@@ -4150,7 +4150,7 @@ GameObject:
   - component: {fileID: 246811943}
   - component: {fileID: 246811942}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Count View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7398,6 +7398,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bucketToggle: {fileID: 1602304315}
   bucketsCountText: {fileID: 2007091177}
+  customBucketToggle: {fileID: 1602304318}
   categories:
   - displayName: Characters
     levels:
@@ -8943,7 +8944,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10}
   m_SizeDelta: {x: 0, y: 180}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &608973111
@@ -22119,8 +22120,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeColor: {r: 0.4392157, g: 0.4862745, b: 1, a: 1}
   inactiveColor: {r: 1, g: 1, b: 1, a: 1}
+  inactiveBackgroundColor: {r: 0.56078434, g: 0.5647059, b: 0.6117647, a: 1}
   toggleBackground: {fileID: 1602304316}
   iconColor: {fileID: 1542705427}
+  countView: {fileID: 246811942}
 --- !u!1 &1607042244
 GameObject:
   m_ObjectHideFlags: 0
