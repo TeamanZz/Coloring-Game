@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace BizzyBeeGames.PictureColoring
 {
@@ -9,7 +10,8 @@ namespace BizzyBeeGames.PictureColoring
 	{
 		#region Inspector Variables
 
-		[SerializeField] private Text hintAmountText = null;
+		[SerializeField] private TextMeshProUGUI hintAmountText = null;
+		[SerializeField] private Image countView;
 
 		#endregion
 
@@ -28,7 +30,13 @@ namespace BizzyBeeGames.PictureColoring
 
 		private void UpdateUI()
 		{
-			hintAmountText.text = CurrencyManager.Instance.GetAmount("hints").ToString();
+			int count = CurrencyManager.Instance.GetAmount("hints");
+			hintAmountText.text = count.ToString();
+			
+			if(count == 0)
+				countView.gameObject.SetActive(false);
+            else
+				countView.gameObject.SetActive(true);
 		}
 
 		#endregion
