@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace BizzyBeeGames.PictureColoring
 {
@@ -11,6 +12,7 @@ namespace BizzyBeeGames.PictureColoring
 
         [Header("UI")]
         [SerializeField] private Toggle bucketToggle;
+        [SerializeField] private TextMeshProUGUI bucketsCountText;
 
         [Header("Data")]
         [SerializeField] private List<CategoryData> categories = null;
@@ -90,6 +92,7 @@ namespace BizzyBeeGames.PictureColoring
             ScreenManager.Instance.OnSwitchingScreens += OnSwitchingScreens;
 
             bucketToggle.onValueChanged.AddListener(SetBuckketActive);
+            bucketsCountText.text = bucketsCount.ToString();
         }
 
         #endregion
@@ -238,8 +241,9 @@ namespace BizzyBeeGames.PictureColoring
                     {
                         regionList = GetRegionListByColorIndex(colorIndex);
                         bucketsCount--;
+                        bucketsCountText.text = bucketsCount.ToString();
 
-                        if(bucketsCount == 0)
+                        if (bucketsCount == 0)
                         {
                             bucketActive = false;
                             bucketToggle.interactable = false;
