@@ -6,187 +6,188 @@ using UnityEngine.EventSystems;
 
 namespace BizzyBeeGames
 {
-	public class ToggleSlider : UIMonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
-	{
-		#region Inspector Variables
+    public class ToggleSlider : UIMonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
+    {
+        #region Inspector Variables
 
-		[SerializeField] private bool			defaultIsOn			= true;
-		
-		[Space]
+        [SerializeField] private bool defaultIsOn = true;
 
-		[SerializeField] private RectTransform	handle				= null;
-		[SerializeField] private RectTransform	handleSlideArea		= null;
-		[SerializeField] private float			handleAnimSpeed		= 0f;
-		[SerializeField] private bool			handleFollowsMouse	= false;
+        [Space]
 
-		[Space]
+        [SerializeField] private RectTransform handle = null;
+        [SerializeField] private RectTransform handleSlideArea = null;
 
-		[SerializeField] private Graphic		handleColorGraphic	= null;
-		[SerializeField] private Color			handleOnColor		= Color.white;
-		[SerializeField] private Color			handleOffColor		= Color.white;
+        [SerializeField] private float handleAnimSpeed = 0f;
+        [SerializeField] private bool handleFollowsMouse = false;
 
-		[Space]
+        [Space]
 
-		[SerializeField] private Text 			onText				= null;
-		[SerializeField] private Text 			offText				= null;
+        [SerializeField] private Graphic handleColorGraphic = null;
+        [SerializeField] private Color handleOnColor = Color.white;
+        [SerializeField] private Color handleOffColor = Color.white;
 
-		#endregion
+        [Space]
 
-		#region Member Variables
+        [SerializeField] private Text onText = null;
+        [SerializeField] private Text offText = null;
 
-		private Camera	canvasCamera;
-		private bool	isHandleMoving;
-		private bool	isHandleAnimating;
+        #endregion
 
-		private bool toggleHasBeenSet;
+        #region Member Variables
 
-		#endregion
+        private Camera canvasCamera;
+        private bool isHandleMoving;
+        private bool isHandleAnimating;
 
-		#region Properties
+        private bool toggleHasBeenSet;
 
-		public bool IsOn { get; set; }
+        #endregion
 
-		public System.Action<bool> OnValueChanged { get; set; }
+        #region Properties
 
-		#endregion
+        public bool IsOn { get; set; }
 
-		#region Unity Methods
+        public System.Action<bool> OnValueChanged { get; set; }
 
-		private void Start()
-		{
-			canvasCamera = Utilities.GetCanvasCamera(transform);
+        #endregion
 
-			if (!toggleHasBeenSet)
-			{
-				SetToggle(defaultIsOn, false);
-			}
-		}
+        #region Unity Methods
 
-		private void Update()
-		{
-			if (isHandleMoving || isHandleAnimating)
-			{
-				SetUI((handle.anchoredPosition.x + handleSlideArea.rect.width / 2f) / handleSlideArea.rect.width);
-			}
-		}
+        private void Start()
+        {
+            canvasCamera = Utilities.GetCanvasCamera(transform);
 
-		#endregion
+            if (!toggleHasBeenSet)
+            {
+                SetToggle(defaultIsOn, false);
+            }
+        }
 
-		#region Public Methods
+        private void Update()
+        {
+            if (isHandleMoving || isHandleAnimating)
+            {
+                SetUI((handle.anchoredPosition.x + handleSlideArea.rect.width / 2f) / handleSlideArea.rect.width);
+            }
+        }
 
-		public void OnPointerDown(PointerEventData data)
-		{
-			isHandleMoving = true;
+        #endregion
 
-			UpdateHandlePosition(data.position);
-		}
+        #region Public Methods
 
-		public void OnDrag(PointerEventData data)
-		{
-			UpdateHandlePosition(data.position);
-		}
+        public void OnPointerDown(PointerEventData data)
+        {
+            isHandleMoving = true;
 
-		public void OnPointerUp(PointerEventData data)
-		{
-			isHandleMoving = false;
+            UpdateHandlePosition(data.position);
+        }
 
-			UpdateHandlePosition(data.position, true);
-		}
+        public void OnDrag(PointerEventData data)
+        {
+            UpdateHandlePosition(data.position);
+        }
 
-		public void Toggle()
-		{
-			SetToggle(!IsOn, true);
-		}
+        public void OnPointerUp(PointerEventData data)
+        {
+            isHandleMoving = false;
 
-		public void SetToggle(bool on, bool animate)
-		{
-			toggleHasBeenSet = true;
-			
-			IsOn = on;
+            UpdateHandlePosition(data.position, true);
+        }
 
-			if (OnValueChanged != null)
-			{
-				OnValueChanged(on);
-			}
+        public void Toggle()
+        {
+            SetToggle(!IsOn, true);
+        }
 
-			float handleX = on ? handleSlideArea.rect.width / 2f : -handleSlideArea.rect.width / 2f;
+        public void SetToggle(bool on, bool animate)
+        {
+            toggleHasBeenSet = true;
 
-			if (animate && handleAnimSpeed > 0)
-			{
-				UIAnimation anim = UIAnimation.PositionX(handle, handleX, handleAnimSpeed);
+            IsOn = on;
 
-				anim.style = UIAnimation.Style.EaseOut;
+            if (OnValueChanged != null)
+            {
+                OnValueChanged(on);
+            }
 
-				isHandleAnimating = true;
+            float handleX = on ? handleSlideArea.rect.width / 2f : -handleSlideArea.rect.width / 2f;
 
-				anim.OnAnimationFinished = (GameObject obj) => 
-				{
-					isHandleAnimating = false;
+            if (animate && handleAnimSpeed > 0)
+            {
+                UIAnimation anim = UIAnimation.PositionX(handle, handleX, handleAnimSpeed);
 
-					SetUI(on ? 1f : 0f);
-				};
+                anim.style = UIAnimation.Style.EaseOut;
 
-				anim.Play();
-			}
-			else
-			{
-				handle.anchoredPosition = new Vector2(handleX, 0f);
+                isHandleAnimating = true;
 
-				SetUI(on ? 1f : 0f);
-			}
-		}
+                anim.OnAnimationFinished = (GameObject obj) =>
+                {
+                    isHandleAnimating = false;
 
-		#endregion
+                    SetUI(on ? 1f : 0f);
+                };
 
-		#region Private Methods
+                anim.Play();
+            }
+            else
+            {
+                handle.anchoredPosition = new Vector2(handleX, 0f);
 
-		private void UpdateHandlePosition(Vector2 screenPosition, bool dragEnded = false)
-		{
-			Vector2 localPosition;
+                SetUI(on ? 1f : 0f);
+            }
+        }
 
-			RectTransformUtility.ScreenPointToLocalPointInRectangle(handleSlideArea,  screenPosition, canvasCamera, out localPosition);
+        #endregion
 
-			float	handleX					= Mathf.Clamp(localPosition.x, -handleSlideArea.rect.width / 2f, handleSlideArea.rect.width / 2f);
-			bool	isHandleInOnPosition	= handleX > 0;
+        #region Private Methods
 
-			if (dragEnded || !handleFollowsMouse)
-			{
-				if (isHandleInOnPosition && !IsOn)
-				{
-					SetToggle(true, true);
-				}
-				else if (!isHandleInOnPosition && IsOn)
-				{
-					SetToggle(false, true);
-				}
-			}
-			else if (handleFollowsMouse)
-			{
-				handle.anchoredPosition = new Vector2(handleX, 0f);
-			}
-		}
+        private void UpdateHandlePosition(Vector2 screenPosition, bool dragEnded = false)
+        {
+            Vector2 localPosition;
 
-		private void SetUI(float t)
-		{
-			handleColorGraphic.color = Color.Lerp(handleOffColor, handleOnColor, t);
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(handleSlideArea, screenPosition, canvasCamera, out localPosition);
 
-			Color onTextColorOn = onText.color;
-			Color onTextColorOff = onText.color;
+            float handleX = Mathf.Clamp(localPosition.x, -handleSlideArea.rect.width / 2f, handleSlideArea.rect.width / 2f);
+            bool isHandleInOnPosition = handleX > 0;
 
-			onTextColorOn.a		= 1f;
-			onTextColorOff.a	= 0f;
+            if (dragEnded || !handleFollowsMouse)
+            {
+                if (isHandleInOnPosition && !IsOn)
+                {
+                    SetToggle(true, true);
+                }
+                else if (!isHandleInOnPosition && IsOn)
+                {
+                    SetToggle(false, true);
+                }
+            }
+            else if (handleFollowsMouse)
+            {
+                handle.anchoredPosition = new Vector2(handleX, 0f);
+            }
+        }
 
-			onText.color = Color.Lerp(onTextColorOff, onTextColorOn, t);
+        private void SetUI(float t)
+        {
+            handleColorGraphic.color = Color.Lerp(handleOffColor, handleOnColor, t);
+           
+            Color onTextColorOn = onText.color;
+            Color onTextColorOff = onText.color;
 
-			Color offTextColorOn	= offText.color;
-			Color offTextColorOff	= offText.color;
+            onTextColorOn.a = 1f;
+            onTextColorOff.a = 0f;
 
-			offTextColorOn.a	= 0f;
-			offTextColorOff.a	= 1f;
+            onText.color = Color.Lerp(onTextColorOff, onTextColorOn, t);
 
-			offText.color = Color.Lerp(offTextColorOff, offTextColorOn, t);
-		}
+            Color offTextColorOn = offText.color;
+            Color offTextColorOff = offText.color;
 
-		#endregion
-	}
+            offTextColorOn.a = 0f;
+            offTextColorOff.a = 1f;
+
+            offText.color = Color.Lerp(offTextColorOff, offTextColorOn, t);
+        }
+
+        #endregion
+    }
 }

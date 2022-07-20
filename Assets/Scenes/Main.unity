@@ -1797,7 +1797,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &94603805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2133,7 +2133,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &124731086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2945,7 +2945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &186401286
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5111,7 +5111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26633143, g: 0.8962264, b: 0.87450594, a: 1}
+  m_Color: {r: 1, g: 0.5882353, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5248,7 +5248,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &318163473
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5323,7 +5323,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &324015846
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5572,7 +5572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &353716147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6013,7 +6013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26551443, g: 0.8962264, b: 0.13105197, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6398,7 +6398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26551443, g: 0.8962264, b: 0.13105197, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -13928,7 +13928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26633143, g: 0.8962264, b: 0.87450594, a: 1}
+  m_Color: {r: 1, g: 0.5882353, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14806,7 +14806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26633143, g: 0.8962264, b: 0.87450594, a: 1}
+  m_Color: {r: 1, g: 0.5882353, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -14942,9 +14942,9 @@ MonoBehaviour:
   handleSlideArea: {fileID: 873180130}
   handleAnimSpeed: 0.4
   handleFollowsMouse: 0
-  handleColorGraphic: {fileID: 374821748}
-  handleOnColor: {r: 0.29803923, g: 0.8862746, b: 0.21176472, a: 1}
-  handleOffColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+  handleColorGraphic: {fileID: 1050075128}
+  handleOnColor: {r: 0.3019608, g: 0.85882354, b: 0.42745098, a: 1}
+  handleOffColor: {r: 0.3019608, g: 0.35686275, b: 0.7764706, a: 1}
   onText: {fileID: 94603805}
   offText: {fileID: 353716147}
 --- !u!114 &1050075128
@@ -16565,9 +16565,9 @@ MonoBehaviour:
   handleSlideArea: {fileID: 609127144}
   handleAnimSpeed: 0.4
   handleFollowsMouse: 0
-  handleColorGraphic: {fileID: 432665194}
-  handleOnColor: {r: 0.29803923, g: 0.8862746, b: 0.21176472, a: 1}
-  handleOffColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
+  handleColorGraphic: {fileID: 1172104286}
+  handleOnColor: {r: 0.3019608, g: 0.85882354, b: 0.42745098, a: 1}
+  handleOffColor: {r: 0.3019608, g: 0.35686275, b: 0.7764706, a: 1}
   onText: {fileID: 1687528618}
   offText: {fileID: 124731086}
 --- !u!114 &1172104286
@@ -16821,7 +16821,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1191628514
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18710,7 +18710,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -300, y: -190.69994}
-  m_SizeDelta: {x: 169, y: 64}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1344357627
 MonoBehaviour:
@@ -19106,7 +19106,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: -300, y: -324.69983}
-  m_SizeDelta: {x: 215, y: 64}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1357775300
 MonoBehaviour:
@@ -20587,7 +20587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99215686, g: 0.42352942, b: 0.44313726, a: 1}
+  m_Color: {r: 0.4392157, g: 0.4862745, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -21347,7 +21347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1521046006
 RectTransform:
   m_ObjectHideFlags: 0
@@ -24014,7 +24014,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1687528618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26691,7 +26691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99215686, g: 0.42352942, b: 0.44313726, a: 1}
+  m_Color: {r: 0.4392157, g: 0.4862745, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -27839,7 +27839,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: -35.799988}
-  m_SizeDelta: {x: 301, y: 76}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1939155505
 MonoBehaviour:
@@ -30930,7 +30930,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26633143, g: 0.8962264, b: 0.87450594, a: 1}
+  m_Color: {r: 1, g: 0.5882353, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
