@@ -41,6 +41,7 @@ public class CustomBucketToggle : MonoBehaviour
     [ContextMenu("Inactive")]
     public void InactiveButton()
     {
+        Debug.Log("Inactive Button");
         toggleBackground.color = inactiveBackgroundColor;
         iconColor.color = inactiveColor;
         countView.gameObject.SetActive(false);

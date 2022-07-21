@@ -100,6 +100,14 @@ namespace BizzyBeeGames.PictureColoring
 
         #region Public Methods
 
+        [ContextMenu("Add Bucket Point")]
+        public void AddBucketPoint()
+        {
+            bucketsCount++;
+            bucketsCountText.text = bucketsCount.ToString();
+            customBucketToggle.ButtonProcessing(false);
+        }
+
         public void SetBuckketActive(bool active)
         {
             if (active && bucketsCount > 0)
@@ -109,7 +117,9 @@ namespace BizzyBeeGames.PictureColoring
             else
             {
                 bucketActive = false;
-                customBucketToggle.InactiveButton();
+                
+                if(bucketsCount == 0)
+                    customBucketToggle.InactiveButton();
             }
         }
 

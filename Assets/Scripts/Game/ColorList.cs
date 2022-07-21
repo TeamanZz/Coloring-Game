@@ -86,6 +86,7 @@ namespace BizzyBeeGames.PictureColoring
                 colorListItems[colorIndex].SetCompleted();
             }
         }
+
         public void SelectColor(int index)
         {
             if (index != SelectedColorIndex)

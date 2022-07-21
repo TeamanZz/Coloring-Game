@@ -14,6 +14,9 @@ namespace BizzyBeeGames.PictureColoring
         [SerializeField] private GameObject completedObj = null;
         [SerializeField] private GameObject selectedObj = null;
 
+        [SerializeField] private Vector2 diselectedSize;
+        [SerializeField] private Vector2 selectedSize;
+
         #endregion
 
         #region Public Methods
@@ -27,15 +30,23 @@ namespace BizzyBeeGames.PictureColoring
 
             selectedObj.SetActive(false);
             completedObj.SetActive(false);
+            colorImage.rectTransform.sizeDelta = diselectedSize;
         }
 
         public void SetSelected(bool isSelected)
         {
+            Debug.Log("Selected");
             selectedObj.SetActive(isSelected);
+
+            if (isSelected)
+                colorImage.rectTransform.sizeDelta = selectedSize;
+            else
+                colorImage.rectTransform.sizeDelta = diselectedSize;
         }
 
         public void SetCompleted()
         {
+            Debug.Log("Diselected");
             numberText.enabled = false;
             completedObj.SetActive(true);
         }
