@@ -39,7 +39,11 @@ namespace BizzyBeeGames.PictureColoring
             selectedObj.SetActive(isSelected);
 
             if (isSelected)
+            {
                 colorImage.rectTransform.sizeDelta = selectedSize;
+                //if (GameManager.gameManager != null)
+                //    GameManager.gameManager.CategoriesTitlePositioning();
+            }
             else
                 colorImage.rectTransform.sizeDelta = diselectedSize;
         }

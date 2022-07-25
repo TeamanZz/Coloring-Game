@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace BizzyBeeGames.PictureColoring
 {
-	[System.Serializable]
-	public class CategoryData
-	{
-		public string			displayName;
-		public List<LevelData>	levels;
-	}
+    [System.Serializable]
+    public class CategoryData
+    {
+        public string displayName;
+        public List<LevelData> levels;
+    }
 }

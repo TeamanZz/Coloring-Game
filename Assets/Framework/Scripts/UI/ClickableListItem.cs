@@ -5,69 +5,69 @@ using UnityEngine.UI;
 
 namespace BizzyBeeGames
 {
-	[RequireComponent(typeof(Button))]
-	public class ClickableListItem : UIMonoBehaviour
-	{
-		#region Member Variables
+    [RequireComponent(typeof(Button))]
+    public class ClickableListItem : UIMonoBehaviour
+    {
+        #region Member Variables
 
-		private Button uiButton;
+        private Button uiButton;
 
-		#endregion
+        #endregion
 
-		#region Properties
+        #region Properties
 
-		public int							Index				{ get; set; }
-		public object						Data				{ get; set; }
-		public System.Action<int, object>	OnListItemClicked	{ get; set; }
+        public int Index { get; set; }
+        public object Data { get; set; }
+        public System.Action<int, object> OnListItemClicked { get; set; }
 
-		/// <summary>
-		/// Gets the Button component attached to this GameObject
-		/// </summary>
-		private Button UIButton
-		{
-			get
-			{
-				if (uiButton == null)
-				{
-					uiButton = gameObject.GetComponent<Button>();
-				}
+        /// <summary>
+        /// Gets the Button component attached to this GameObject
+        /// </summary>
+        private Button UIButton
+        {
+            get
+            {
+                if (uiButton == null)
+                {
+                    uiButton = gameObject.GetComponent<Button>();
+                }
 
-				return uiButton;
-			}
-		}
+                return uiButton;
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Unity Methods
+        #region Unity Methods
 
-		private void Start()
-		{
-			if (UIButton != null)
-			{
-				UIButton.onClick.AddListener(OnButtonClicked);
-			}
-			else
-			{
-				Debug.LogError("[ClickableListItem] There is no Button component on this GameObject.");
-			}
-		}
+        private void Start()
+        {
+            if (UIButton != null)
+            {
+                UIButton.onClick.AddListener(OnButtonClicked);
+            }
+            else
+            {
+                Debug.LogError("[ClickableListItem] There is no Button component on this GameObject.");
+            }
+        }
 
-		#endregion
+        #endregion
 
-		#region Private Methods
+        #region Private Methods
 
-		private void OnButtonClicked()
-		{
-			if (OnListItemClicked != null)
-			{
-				OnListItemClicked(Index, Data);
-			}
-			else
-			{
-				Debug.LogWarning("[ClickableListItem] OnListItemClicked has not been set on object " + gameObject.name);
-			}
-		}
+        private void OnButtonClicked()
+        {
+            if (OnListItemClicked != null)
+            {
+                OnListItemClicked(Index, Data);
+            }
+            else
+            {
+                Debug.LogWarning("[ClickableListItem] OnListItemClicked has not been set on object " + gameObject.name);
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
