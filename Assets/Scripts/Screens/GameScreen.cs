@@ -26,7 +26,9 @@ namespace BizzyBeeGames.PictureColoring
         [SerializeField] private GameObject shareButtonsContainer = null;
         [SerializeField] private CanvasGroup notificationContainer = null;
         [SerializeField] private Text notificationText = null;
-
+        
+        [Header("Others UI")][Space]
+        [SerializeField] private SizeReturner sizeReturner;
         #endregion
 
         #region Public Methods
@@ -91,7 +93,21 @@ namespace BizzyBeeGames.PictureColoring
                     pictureArea.ZoomInOnRegion(region);
 
                     SoundManager.Instance.Play("hint-used");
+
+                    if (sizeReturner != null)
+                        sizeReturner.SaveRectTransform();
+                    else
+                        Debug.Log($"Size Returner{sizeReturner}");
                 }
+                //else
+                //{
+                //    if (sizeReturner != null)
+                //    {
+                //        sizeReturner.ClearRectTransform();
+                //    }
+                //    else
+                //        Debug.Log($"Size Returner{sizeReturner}");
+                //}
             }
         }
 
