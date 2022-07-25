@@ -28,6 +28,7 @@ namespace BizzyBeeGames.PictureColoring
 
         [Header("Other UI")]
         [SerializeField] private GameObject borderPrefab;
+        [SerializeField] private Sprite borderSprite;
 
         [Space]
         [Range(1, 0)] [SerializeField] private float numberStartAppearing = 0f;
@@ -276,7 +277,11 @@ namespace BizzyBeeGames.PictureColoring
             if (borderSize > 0)
             {
                 // Need to add an Image component or the Outline wont show
-                pictureContainer.gameObject.AddComponent<Image>();
+                Image imageBorder = pictureContainer.gameObject.AddComponent<Image>();
+                imageBorder.sprite = borderSprite;
+                imageBorder.type = Image.Type.Sliced;
+
+                pictureContainer.gameObject.AddComponent<Mask>();
                 GameObject border = Instantiate(borderPrefab, pictureContainer);
 
                 //// Add an outline component
