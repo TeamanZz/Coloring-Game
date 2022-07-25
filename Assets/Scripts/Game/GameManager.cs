@@ -47,7 +47,7 @@ namespace BizzyBeeGames.PictureColoring
         /// </summary>
         private HashSet<string> awardedLevels;
 
-        private bool bucketActive;
+        [SerializeField] private bool bucketActive;
 
         #endregion
 
@@ -257,6 +257,9 @@ namespace BizzyBeeGames.PictureColoring
                         regionList = GetRegionListByColorIndex(colorIndex);
                         bucketsCount--;
                         bucketsCountText.text = bucketsCount.ToString();
+
+                        customBucketToggle.ButtonProcessing(false);
+                        bucketToggle.isOn = false;
 
                         if (bucketsCount == 0)
                         {
