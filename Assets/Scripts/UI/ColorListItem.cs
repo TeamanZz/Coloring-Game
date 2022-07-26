@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace BizzyBeeGames.PictureColoring
 {
@@ -53,6 +54,15 @@ namespace BizzyBeeGames.PictureColoring
             Debug.Log("Diselected");
             numberText.enabled = false;
             completedObj.SetActive(true);
+
+            StartCoroutine(HideObject());
+        }
+
+        public IEnumerator HideObject()
+        {
+            transform.DOScale(0, 0.45f).SetEase(Ease.InBack);
+            yield return new WaitForSeconds(0.6f);
+            gameObject.SetActive(false);
         }
 
         #endregion
