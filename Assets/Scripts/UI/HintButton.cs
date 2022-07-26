@@ -6,39 +6,50 @@ using TMPro;
 
 namespace BizzyBeeGames.PictureColoring
 {
-	public class HintButton : MonoBehaviour
-	{
-		#region Inspector Variables
+    public class HintButton : MonoBehaviour
+    {
+        #region Inspector Variables
 
-		[SerializeField] private TextMeshProUGUI hintAmountText = null;
-		[SerializeField] private Image countView;
+        [SerializeField] private TextMeshProUGUI hintAmountText = null;
+        [SerializeField] private Image countView;
 
-		#endregion
+        [SerializeField] private Image backgroundImage;
+        [SerializeField] private Color activeColor;
+        [SerializeField] private Color inactiveColor;
 
-		#region Unity Methods
+        #endregion
 
-		private void Start()
-		{
-			UpdateUI();
+        #region Unity Methods
 
-			CurrencyManager.Instance.OnCurrencyChanged += (string obj) => { UpdateUI(); };
-		}
+        private void Start()
+        {
+            UpdateUI();
 
-		#endregion
+            CurrencyManager.Instance.OnCurrencyChanged += (string obj) => { UpdateUI(); };
+        }
 
-		#region Private Methods
+        #endregion
 
-		private void UpdateUI()
-		{
-			int count = CurrencyManager.Instance.GetAmount("hints");
-			hintAmountText.text = count.ToString();
-			
-			if(count == 0)
-				countView.gameObject.SetActive(false);
+        #region Private Methods
+
+        private void UpdateUI()
+        {
+            int count = CurrencyManager.Instance.GetAmount("hints");
+            hintAmountText.text = count.ToString();
+
+            if (count == 0)
+            {
+                countView.gameObject.SetActive(false);
+                backgroundImage.color = inactiveColor;
+                //PopupManager.Instance.Show("store");
+            }
             else
-				countView.gameObject.SetActive(true);
-		}
+            {
+                countView.gameObject.SetActive(true);
+                backgroundImage.color = activeColor;
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }
