@@ -85,20 +85,26 @@ namespace BizzyBeeGames.PictureColoring
                 int regionIndex = activeLevelData.GetSmallestUncoloredRegion(selectedColoredIndex);
 
                 // If -1 is returned then all regions have been colored
-                if (regionIndex != -1 && CurrencyManager.Instance.TrySpend("hints", 1))
+                if (CurrencyManager.Instance.TrySpend("hints", 1))
                 {
-                    // Region is not -1 and we successfully spend a currency to use the hint
-                    Region region = activeLevelData.LevelFileData.regions[regionIndex];
+                    if (regionIndex != -1)
+                    {
+                        // Region is not -1 and we successfully spend a currency to use the hint
+                        Region region = activeLevelData.LevelFileData.regions[regionIndex];
 
-                    pictureArea.ZoomInOnRegion(region);
+                        pictureArea.ZoomInOnRegion(region);
 
-                    SoundManager.Instance.Play("hint-used");
+                        SoundManager.Instance.Play("hint-used");
 
-                    if (sizeReturner != null)
-                        sizeReturner.SaveRectTransform();
-                    else
-                        Debug.Log($"Size Returner{sizeReturner}");
+                        if (sizeReturner != null)
+                            sizeReturner.SaveRectTransform();
+                        else
+                            Debug.Log($"Size Returner{sizeReturner}");
+                    }
                 }
+                else
+                    PopupManager.Instance.Show("store");
+
                 //else
                 //{
                 //    if (sizeReturner != null)
