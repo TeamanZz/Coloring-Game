@@ -610,6 +610,10 @@ namespace BizzyBeeGames.PictureColoring
             {
                 JSONNode levelSaveDataJson = levelSaveDatasJson[i];
                 string key = levelSaveDataJson["key"].Value;
+                
+                if (playedLevelSaveDatas.ContainsKey(key))
+                    continue;
+                
                 JSONNode data = levelSaveDataJson["data"];
 
                 LevelSaveData levelSaveData = new LevelSaveData();
