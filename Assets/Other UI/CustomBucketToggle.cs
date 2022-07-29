@@ -1,9 +1,14 @@
+using BizzyBeeGames;
 using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Toggle))]
 public class CustomBucketToggle : MonoBehaviour
 {
+    [Header("Main Settings")]
+    public bool isActive = true;
+
+    [Header("View Settings")]
     public Color activeColor;
     public Color inactiveColor;
 
@@ -11,7 +16,6 @@ public class CustomBucketToggle : MonoBehaviour
 
     public Image toggleBackground;
     public Image iconColor;
-
     public Image countView;
 
     public Toggle Toggle { get; private set; }
@@ -26,9 +30,20 @@ public class CustomBucketToggle : MonoBehaviour
 
     public void ButtonProcessing(bool isSelected)
     {
-        countView.gameObject.SetActive(true);
+        if (!isActive)
+        {
+            PopupManager.Instance.Show("store");
+            return;
+        }
 
         toggleBackground.color = isSelected ? activeColor : inactiveColor;
         iconColor.color = isSelected ? inactiveColor : activeColor;
+    }
+
+    public void InactiveButton()
+    {
+        toggleBackground.color = inactiveBackgroundColor;
+        iconColor.color = inactiveColor;
+        countView.gameObject.SetActive(false);
     }
 }

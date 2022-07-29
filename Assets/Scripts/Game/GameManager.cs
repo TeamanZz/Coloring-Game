@@ -44,7 +44,7 @@ namespace BizzyBeeGames.PictureColoring
         /// </summary>
         private HashSet<string> awardedLevels;
 
-        public bool BucketActive { get; private set; }
+        //public bool BucketActive { get; private set; }
 
         #endregion
 
@@ -101,31 +101,53 @@ namespace BizzyBeeGames.PictureColoring
 
         #region Public Methods
 
+        #region Bucket
         [ContextMenu("Add Bucket Point")]
         public void AddBucketPoint()
         {
             bucketsCount++;
-            bucketsCountText.text = bucketsCount.ToString();
-            customBucketToggle.ButtonProcessing(false);
+            UpdateBucketUI();
+        }
+
+        public void UpdateBucketUI()
+        {
+            if (bucketsCount > 0)
+            {
+                customBucketToggle.countView.gameObject.SetActive(true);
+                bucketsCountText.text = bucketsCount.ToString();
+
+                customBucketToggle.isActive = true;
+                customBucketToggle.ButtonProcessing(false);
+            }
+            else
+            {
+                customBucketToggle.countView.gameObject.SetActive(false);
+                bucketsCountText.text = "";
+
+                customBucketToggle.isActive = false;
+                customBucketToggle.InactiveButton();
+            }
         }
 
         public void SetBuckketActive(bool active)
         {
             if (active && bucketsCount > 0)
             {
-                BucketActive = true;
+                customBucketToggle.isActive = true;
+                bucketsCountText.text = bucketsCount.ToString();
             }
             else
             {
-                BucketActive = false;
-
                 if (bucketsCount == 0)
                 {
                     customBucketToggle.Toggle.isOn = false;
-                    customBucketToggle.Toggle.interactable = false;
+                    customBucketToggle.InactiveButton();
+
+                    customBucketToggle.isActive = false;
                 }
             }
         }
+        #endregion
 
         /// <summary>
         /// Shows the level selected popup
@@ -256,26 +278,27 @@ namespace BizzyBeeGames.PictureColoring
 
                 if (region != null && region.colorIndex == colorIndex && !activeLevelData.LevelSaveData.coloredRegions.Contains(region.id))
                 {
-                    if (BucketActive && bucketsCount > 0)
+                    if (customBucketToggle.Toggle.isOn && bucketsCount > 0)
                     {
                         regionList = GetRegionListByColorIndex(colorIndex);
                         bucketsCount--;
                         bucketsCountText.text = bucketsCount.ToString();
 
-                        customBucketToggle.ButtonProcessing(false);
                         customBucketToggle.Toggle.isOn = false;
 
-                        if (bucketsCount == 0)
-                        {
-                            BucketActive = false;
-                            customBucketToggle.Toggle.interactable = false;
-                            bucketsCountText.text = ""; 
-                        }
+                        //if (bucketsCount == 0)
+                        //{
+                        //    //customBucketToggle.isActive = false;
+                        //    //customBucketToggle.Toggle.interactable = false
+                            
+                        //}
+
+                        UpdateBucketUI();
 
                     }
                     else
-                    { 
-                        regionList.Add(region); 
+                    {
+                        regionList.Add(region);
                     }
 
                     foreach (Region regionS in regionList)
@@ -284,7 +307,6 @@ namespace BizzyBeeGames.PictureColoring
 
                         if (region != null && region.colorIndex == colorIndex && !activeLevelData.LevelSaveData.coloredRegions.Contains(region.id)) // for exrta safety check
                         {
-
                             // Color the region
                             ColorRegion(region);
 
@@ -613,10 +635,10 @@ namespace BizzyBeeGames.PictureColoring
             {
                 JSONNode levelSaveDataJson = levelSaveDatasJson[i];
                 string key = levelSaveDataJson["key"].Value;
-                
+
                 if (playedLevelSaveDatas.ContainsKey(key))
                     continue;
-                
+
                 JSONNode data = levelSaveDataJson["data"];
 
                 LevelSaveData levelSaveData = new LevelSaveData();
