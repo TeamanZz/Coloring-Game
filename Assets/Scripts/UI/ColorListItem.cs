@@ -32,29 +32,33 @@ namespace BizzyBeeGames.PictureColoring
             selectedObj.SetActive(false);
             completedObj.SetActive(false);
             colorImage.rectTransform.sizeDelta = diselectedSize;
+
+            transform.localScale = Vector3.one;
         }
 
         public void SetSelected(bool isSelected)
         {
-            Debug.Log("Selected");
             selectedObj.SetActive(isSelected);
 
             if (isSelected)
-            {
                 colorImage.rectTransform.sizeDelta = selectedSize;
-                //if (GameManager.gameManager != null)
-                //    GameManager.gameManager.CategoriesTitlePositioning();
-            }
             else
                 colorImage.rectTransform.sizeDelta = diselectedSize;
+        }
+        public void SetHideCompleted()
+        {
+            Debug.Log("Hide Diselected");
+            numberText.enabled = false;
+            completedObj.SetActive(true);
+
+            gameObject.SetActive(false);
+            transform.localScale = Vector3.zero;
         }
 
         public void SetCompleted()
         {
-            Debug.Log("Diselected");
             numberText.enabled = false;
             completedObj.SetActive(true);
-
             StartCoroutine(HideObject());
         }
 

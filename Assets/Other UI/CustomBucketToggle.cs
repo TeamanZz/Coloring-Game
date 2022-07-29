@@ -1,8 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Toggle))]
 public class CustomBucketToggle : MonoBehaviour
 {
     public Color activeColor;
@@ -15,35 +14,21 @@ public class CustomBucketToggle : MonoBehaviour
 
     public Image countView;
 
+    public Toggle Toggle { get; private set; }
+
     public void Awake()
-    { 
-        if (TryGetComponent(out Toggle currentToggle))
-            ButtonProcessing(currentToggle.isOn);
+    {
+        Toggle = GetComponent<Toggle>();
+        Toggle.onValueChanged.AddListener(ButtonProcessing);
+
+        ButtonProcessing(Toggle.isOn);
     }
 
     public void ButtonProcessing(bool isSelected)
     {
         countView.gameObject.SetActive(true);
-        switch(isSelected)
-        {
-            case false:
-                toggleBackground.color = inactiveColor;
-                iconColor.color = activeColor;
-                break;
 
-            case true:
-                toggleBackground.color = activeColor;
-                iconColor.color = inactiveColor;
-                break;
-        }
-    }
-
-    [ContextMenu("Inactive")]
-    public void InactiveButton()
-    {
-        Debug.Log("Inactive Button");
-        toggleBackground.color = inactiveBackgroundColor;
-        iconColor.color = inactiveColor;
-        countView.gameObject.SetActive(false);
+        toggleBackground.color = isSelected ? activeColor : inactiveColor;
+        iconColor.color = isSelected ? inactiveColor : activeColor;
     }
 }
