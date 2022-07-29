@@ -203,6 +203,8 @@ namespace BizzyBeeGames.PictureColoring
             levelCompleteUI.interactable = false;
             levelCompleteUI.blocksRaycasts = false;
             levelCompleteUI.alpha = 0f;
+
+            colorList.ScrollTo(colorList.SelectedColorIndex);
         }
 
         /// <summary>

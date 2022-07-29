@@ -57,7 +57,7 @@ namespace BizzyBeeGames.PictureColoring
                     colorListItem.Setup(color, i + 1);
                     colorListItem.SetSelected(i == selectedColorIndex);
 
-                    CheckCompleted(i);
+                    CheckHideCompleted(i);
 
                     colorListItem.Index = i;
                     colorListItem.OnListItemClicked = OnColorListItemClicked;
@@ -87,6 +87,16 @@ namespace BizzyBeeGames.PictureColoring
             }
         }
 
+        public void CheckHideCompleted(int colorIndex)
+        {
+            LevelData activeLevelData = GameManager.Instance.ActiveLevelData;
+
+            if (activeLevelData != null && colorIndex < colorListItems.Count && activeLevelData.IsColorComplete(colorIndex))
+            {
+                colorListItems[colorIndex].SetHideCompleted();
+            }
+        }
+
         public void SelectColor(int index)
         {
             if (index != SelectedColorIndex)
@@ -95,11 +105,15 @@ namespace BizzyBeeGames.PictureColoring
                 colorListItems[index].SetSelected(true);
 
                 SelectedColorIndex = index;
-
-                scrollRect.ScrollToCenter(colorListItems[SelectedColorIndex].RectT, RectTransform.Axis.Horizontal);
+                ScrollTo(index);
 
                 OnColorSelected(index);
             }
+        }
+
+        public void ScrollTo(int index)
+        {
+            scrollRect.ScrollToCenter(colorListItems[index].RectT, RectTransform.Axis.Horizontal);
         }
 
         #endregion
