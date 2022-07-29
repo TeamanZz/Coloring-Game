@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 namespace BizzyBeeGames.PictureColoring
@@ -11,7 +9,6 @@ namespace BizzyBeeGames.PictureColoring
         #region Inspector Variables
 
         [Header("UI")]
-        [SerializeField] private Toggle bucketToggle;
         [SerializeField] private TextMeshProUGUI bucketsCountText;
         [SerializeField] private CustomBucketToggle customBucketToggle;
 
@@ -47,7 +44,7 @@ namespace BizzyBeeGames.PictureColoring
         /// </summary>
         private HashSet<string> awardedLevels;
 
-        [SerializeField] private bool bucketActive;
+        public bool BucketActive { get; private set; }
 
         #endregion
 
@@ -92,8 +89,12 @@ namespace BizzyBeeGames.PictureColoring
 
             ScreenManager.Instance.OnSwitchingScreens += OnSwitchingScreens;
 
-            bucketToggle.onValueChanged.AddListener(SetBuckketActive);
             bucketsCountText.text = bucketsCount.ToString();
+        }
+
+        private void Start()
+        {
+            customBucketToggle.Toggle.onValueChanged.AddListener(SetBuckketActive);
         }
 
         #endregion
@@ -112,14 +113,17 @@ namespace BizzyBeeGames.PictureColoring
         {
             if (active && bucketsCount > 0)
             {
-                bucketActive = true;
+                BucketActive = true;
             }
             else
             {
-                bucketActive = false;
-                
-                if(bucketsCount == 0)
-                    customBucketToggle.InactiveButton();
+                BucketActive = false;
+
+                if (bucketsCount == 0)
+                {
+                    customBucketToggle.Toggle.isOn = false;
+                    customBucketToggle.Toggle.interactable = false;
+                }
             }
         }
 
@@ -252,21 +256,20 @@ namespace BizzyBeeGames.PictureColoring
 
                 if (region != null && region.colorIndex == colorIndex && !activeLevelData.LevelSaveData.coloredRegions.Contains(region.id))
                 {
-                    if (bucketActive && bucketsCount > 0)
+                    if (BucketActive && bucketsCount > 0)
                     {
                         regionList = GetRegionListByColorIndex(colorIndex);
                         bucketsCount--;
                         bucketsCountText.text = bucketsCount.ToString();
 
                         customBucketToggle.ButtonProcessing(false);
-                        bucketToggle.isOn = false;
+                        customBucketToggle.Toggle.isOn = false;
 
                         if (bucketsCount == 0)
                         {
-                            bucketActive = false;
-                            bucketToggle.interactable = false;
+                            BucketActive = false;
+                            customBucketToggle.Toggle.interactable = false;
                             bucketsCountText.text = ""; 
-                            customBucketToggle.InactiveButton();
                         }
 
                     }
@@ -615,6 +618,9 @@ namespace BizzyBeeGames.PictureColoring
                 LevelSaveData levelSaveData = new LevelSaveData();
 
                 levelSaveData.FromJson(data);
+
+                if (playedLevelSaveDatas.ContainsKey(key))
+                    continue;
 
                 playedLevelSaveDatas.Add(key, levelSaveData);
             }
