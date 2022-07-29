@@ -101,6 +101,12 @@ namespace BizzyBeeGames.PictureColoring
 
         #region Public Methods
 
+        [ContextMenu("Add Hint Point")]
+        public void AddHintPoint()
+        {
+            CurrencyManager.Instance.Give("hints", 1);
+        }
+
         #region Bucket
         [ContextMenu("Add Bucket Point")]
         public void AddBucketPoint()
