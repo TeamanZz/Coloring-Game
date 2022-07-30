@@ -18,7 +18,8 @@ namespace BizzyBeeGames.PictureColoring
 
         private ObjectPool colorListItemPool;
         private ScrollRect scrollRect;
-        private List<ColorListItem> colorListItems;
+        [SerializeField] private List<ColorListItem> colorListItems;
+        [SerializeField] private List<ColorListItem> copyColorList;
 
         #endregion
 
@@ -35,7 +36,7 @@ namespace BizzyBeeGames.PictureColoring
         {
             colorListItemPool = new ObjectPool(colorListItemPrefab.gameObject, 1, colorListContainer);
             colorListItems = new List<ColorListItem>();
-            scrollRect = GetComponent<ScrollRect>();    
+            scrollRect = GetComponent<ScrollRect>();
         }
 
         public void Setup(int selectedColorIndex)
@@ -57,7 +58,8 @@ namespace BizzyBeeGames.PictureColoring
                     colorListItem.Setup(color, i + 1);
                     colorListItem.SetSelected(i == selectedColorIndex);
 
-                    CheckHideCompleted(i);
+                    if (CheckHideCompleted(i) == false)
+                        copyColorList.Add(colorListItem);
 
                     colorListItem.Index = i;
                     colorListItem.OnListItemClicked = OnColorListItemClicked;
@@ -71,9 +73,38 @@ namespace BizzyBeeGames.PictureColoring
         {
             // Clear the list
             colorListItemPool.ReturnAllObjectsToPool();
+
             colorListItems.Clear();
+            copyColorList.Clear();
         }
 
+        public int ConvertIndexGlobalToCopy(int globalIndex)
+        {
+            int copy = 0;
+            for (int i = 0; i < copyColorList.Count; i++)
+            {
+                if (copyColorList[i] == colorListItems[globalIndex])
+                {
+                    copy = i;
+                    Debug.Log($"Global Index {copy}");
+                }
+            }
+            return copy;
+        }
+
+        public int ConvertIndexCopyToGlobal(int copyIndex)
+        {
+            int global = 0;
+            for (int i = 0; i < colorListItems.Count; i++)
+            {
+                if (colorListItems[i] == copyColorList[copyIndex])
+                {
+                    global = i;
+                    Debug.Log($"Copy Index {global}");
+                }
+            }
+            return global;
+        }
         /// <summary>
         /// Checks if the color region is completed and if so sets the ColorListItem as completed
         /// </summary>
@@ -84,17 +115,37 @@ namespace BizzyBeeGames.PictureColoring
             if (activeLevelData != null && colorIndex < colorListItems.Count && activeLevelData.IsColorComplete(colorIndex))
             {
                 colorListItems[colorIndex].SetCompleted();
+                int copyIndex = ConvertIndexGlobalToCopy(colorIndex);
+                Debug.Log($"Copy Index {copyIndex}");
+                
+                int nextIndex = 0;
+                if(copyColorList.Count > 1)
+                {
+                    if (copyIndex == copyColorList.Count - 1)
+                        nextIndex = copyIndex - 1;
+                    else
+                        nextIndex = copyIndex + 1;
+                }
+
+                Debug.Log($"Next Index {nextIndex}");
+                SelectColor(ConvertIndexCopyToGlobal(nextIndex));
+
+                copyColorList.RemoveAt(copyIndex);
             }
         }
 
-        public void CheckHideCompleted(int colorIndex)
+
+        public bool CheckHideCompleted(int colorIndex)
         {
             LevelData activeLevelData = GameManager.Instance.ActiveLevelData;
 
             if (activeLevelData != null && colorIndex < colorListItems.Count && activeLevelData.IsColorComplete(colorIndex))
             {
                 colorListItems[colorIndex].SetHideCompleted();
+                return true;
             }
+
+            return false;
         }
 
         public void SelectColor(int index)

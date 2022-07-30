@@ -53,7 +53,7 @@ namespace BizzyBeeGames.PictureColoring
 
             shareButtonsContainer.SetActive(NativePlugin.Exists());
         }
-
+       
         private void OnPixelLongPress(int x, int y)
         {
             LevelData activeLevelData = GameManager.Instance.ActiveLevelData;

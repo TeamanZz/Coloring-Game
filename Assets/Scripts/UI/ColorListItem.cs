@@ -47,7 +47,7 @@ namespace BizzyBeeGames.PictureColoring
         }
         public void SetHideCompleted()
         {
-            Debug.Log("Hide Diselected");
+            //Debug.Log("Hide Diselected");
             numberText.enabled = false;
             completedObj.SetActive(true);
 
