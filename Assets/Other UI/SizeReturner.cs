@@ -10,13 +10,11 @@ public class SizeReturner : MonoBehaviour
 
     [Header("Rect Settings")]
     public RectTransform groupRectTransform;
-    public Vector2 saveTransform;
-    public Vector2 saveScale;
+    public Vector3 saveScale = Vector3.one;
 
     public void SaveRectTransform()
     {
-        saveTransform = groupRectTransform.anchoredPosition;
-        saveScale = groupRectTransform.localScale;
+        saveScale = Vector3.one;
         groupRectTransform.localScale += (Vector3.one * 0.05f);
         isSaved = true;
     }
@@ -24,15 +22,15 @@ public class SizeReturner : MonoBehaviour
     [ContextMenu("Return Transform")]
     public void ReturnRectTransfrom()
     {
-        groupRectTransform.anchoredPosition = saveTransform;
-        groupRectTransform.localScale = saveScale;
+        groupRectTransform.anchoredPosition = Vector3.zero;
+        groupRectTransform.localScale = Vector3.one;
+
         isSaved = false;
     }
 
     public void ClearRectTransform()
     {
-        saveTransform = Vector2.zero;
-        saveScale = Vector2.zero;
+        saveScale = Vector3.one;
         isSaved = false;
     }
 
