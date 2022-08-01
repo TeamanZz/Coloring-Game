@@ -34,11 +34,18 @@ public class SizeReturner : MonoBehaviour
         isSaved = false;
     }
 
+    public void CheckZoom()
+    {
+        if (groupRectTransform.localScale.x != saveScale.x || groupRectTransform.localScale.y != saveScale.y)
+            SaveRectTransform();
+    }
+
     public void Update()
     {
         if (isSaved == false)
         {
             returnButton.gameObject.SetActive(false);
+            CheckZoom();
             return;
         }
         else
