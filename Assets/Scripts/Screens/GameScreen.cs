@@ -10,28 +10,38 @@ namespace BizzyBeeGames.PictureColoring
     {
         #region Inspector Variables
 
-        [Space]
+        public static GameScreen gameScreen;
 
+        [Space]
         [SerializeField] private PictureArea pictureArea = null;
         [SerializeField] private ColorList colorList = null;
         [SerializeField] private GameObject levelLoadingIndicator = null;
+
         [Space]
         [SerializeField] private CanvasGroup gameplayUI = null;
         [SerializeField] private CanvasGroup levelCompleteUI = null;
+
         [Space]
         [SerializeField] private GameObject awardedHintTextContainer = null;
         [SerializeField] private GameObject awardedCoinsTextContainer = null;
         [SerializeField] private Text awardedCoinsAmountText = null;
+
         [Space]
         [SerializeField] private GameObject shareButtonsContainer = null;
         [SerializeField] private CanvasGroup notificationContainer = null;
         [SerializeField] private Text notificationText = null;
-        
-        [Header("Others UI")][Space]
+
+        [Header("Others UI")]
+        [Space]
         [SerializeField] private SizeReturner sizeReturner;
+        public bool holdSelection;
         #endregion
 
         #region Public Methods
+        public void Awake()
+        {
+            gameScreen = this;
+        }
 
         public override void Initialize()
         {
@@ -53,9 +63,18 @@ namespace BizzyBeeGames.PictureColoring
 
             shareButtonsContainer.SetActive(NativePlugin.Exists());
         }
-       
+
+        public void SetHoldSelectednOff(bool isOn)
+        {
+            Debug.Log($"Hold Selection {holdSelection}");
+            holdSelection = isOn;
+        }
+
         private void OnPixelLongPress(int x, int y)
         {
+            if (!holdSelection)
+                return;
+
             LevelData activeLevelData = GameManager.Instance.ActiveLevelData;
 
             if (activeLevelData != null)
@@ -402,7 +421,7 @@ namespace BizzyBeeGames.PictureColoring
 #if UNITY_IOS
 				PopupManager.Instance.Show("permissions", new object[] { "Photos" });
 #elif UNITY_ANDROID
-				PopupManager.Instance.Show("permissions", new object[] { "Storage" });
+                PopupManager.Instance.Show("permissions", new object[] { "Storage" });
 #endif
             }
         }
