@@ -1021,6 +1021,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01034563451c489cb1f011bda665e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxVertsPerPictureImage: 60000
 --- !u!1 &1476734708366830
 GameObject:
   m_ObjectHideFlags: 0
