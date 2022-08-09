@@ -9,6 +9,7 @@ namespace BizzyBeeGames.PictureColoring
         #region Inspector Variables
 
         [SerializeField] private GameObject activeIcon;
+        [SerializeField] private GameObject buttonFade;
         [SerializeField] private Text buttonText = null;
         [SerializeField] private Color normalColor = Color.white;
         [SerializeField] private Color selectedColor = Color.white;
@@ -29,7 +30,9 @@ namespace BizzyBeeGames.PictureColoring
             }
 
             activeIcon.SetActive(isSelected);
+            buttonFade.SetActive(isSelected);
             activeIcon.transform.DOScale(endScale, .5f).From(startScale).SetEase(Ease.InOutCubic);
+            buttonFade.transform.DOScale(endScale, .5f).From(startScale).SetEase(Ease.InOutCubic);
 
             buttonText.color = isSelected ? selectedColor : normalColor;
         }
