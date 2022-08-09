@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Newtonsoft.Json;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -150,7 +151,7 @@ namespace BizzyBeeGames
 					Dictionary<string, object>	saveData		= saveable.Save();
 					string						saveFilePath	= GetSaveFilePath(saveable.SaveId);
 
-					string fileContents = Utilities.ConvertToJsonString(saveData);
+					string fileContents = JsonConvert.SerializeObject(saveData);
 
 					if (enableEncryption)
 					{

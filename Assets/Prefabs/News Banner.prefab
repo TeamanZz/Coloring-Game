@@ -54,6 +54,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: {fileID: 1582302709049106261}
   descriptionText: {fileID: 4265847756412259742}
+  goButton: {fileID: 5406483666060613830}
   image: {fileID: 4821021364000513068}
 --- !u!114 &7602680049363486830
 MonoBehaviour:
