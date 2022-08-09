@@ -78,5 +78,8 @@ public class PanelApiManager : SaveableManager<PanelApiManager>
 
         if (Banners == null)
             Banners = new List<Banner>();
+
+
+        OnBannersRefreshed?.Invoke();
     }
 }
