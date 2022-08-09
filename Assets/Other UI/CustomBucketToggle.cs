@@ -5,6 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(Toggle))]
 public class CustomBucketToggle : MonoBehaviour
 {
+    public static CustomBucketToggle Instance;
     [Header("Main Settings")]
     public bool isActive = true;
 
@@ -22,6 +23,7 @@ public class CustomBucketToggle : MonoBehaviour
 
     public void Awake()
     {
+        Instance = this;
         Toggle = GetComponent<Toggle>();
         Toggle.onValueChanged.AddListener(ButtonProcessing);
 
@@ -37,7 +39,13 @@ public class CustomBucketToggle : MonoBehaviour
         }
 
         toggleBackground.color = isSelected ? activeColor : inactiveColor;
-        iconColor.color = isSelected ? inactiveColor : activeColor;
+        iconColor.color = isSelected ? inactiveColor : Color.white;
+    }
+
+    public void SetToggleBackgroundColor(Color newColor)
+    {
+        toggleBackground.color = newColor;
+
     }
 
     public void InactiveButton()

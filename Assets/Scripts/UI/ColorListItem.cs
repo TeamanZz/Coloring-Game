@@ -10,7 +10,7 @@ namespace BizzyBeeGames.PictureColoring
     {
         #region Inspector Variables
 
-        [SerializeField] private Image colorImage = null;
+        public Image colorImage = null;
         [SerializeField] private Text numberText = null;
         [SerializeField] private GameObject completedObj = null;
         [SerializeField] private GameObject selectedObj = null;

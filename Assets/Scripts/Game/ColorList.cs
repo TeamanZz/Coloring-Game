@@ -57,6 +57,7 @@ namespace BizzyBeeGames.PictureColoring
 
                     colorListItem.Setup(color, i + 1);
                     colorListItem.SetSelected(i == selectedColorIndex);
+                    CustomBucketToggle.Instance.SetToggleBackgroundColor(colorListItems[selectedColorIndex].colorImage.color);
 
                     if (CheckHideCompleted(i) == false)
                         copyColorList.Add(colorListItem);
@@ -117,9 +118,9 @@ namespace BizzyBeeGames.PictureColoring
                 colorListItems[colorIndex].SetCompleted();
                 int copyIndex = ConvertIndexGlobalToCopy(colorIndex);
                 Debug.Log($"Copy Index {copyIndex}");
-                
+
                 int nextIndex = 0;
-                if(copyColorList.Count > 1)
+                if (copyColorList.Count > 1)
                 {
                     if (copyIndex == copyColorList.Count - 1)
                         nextIndex = copyIndex - 1;
@@ -154,6 +155,7 @@ namespace BizzyBeeGames.PictureColoring
             {
                 colorListItems[SelectedColorIndex].SetSelected(false);
                 colorListItems[index].SetSelected(true);
+                CustomBucketToggle.Instance.SetToggleBackgroundColor(colorListItems[index].colorImage.color);
 
                 SelectedColorIndex = index;
                 ScrollTo(index);
@@ -178,6 +180,8 @@ namespace BizzyBeeGames.PictureColoring
                 // Set the current selected ColorListItem to un-selected and select the new one
                 colorListItems[SelectedColorIndex].SetSelected(false);
                 colorListItems[index].SetSelected(true);
+                CustomBucketToggle.Instance.SetToggleBackgroundColor(colorListItems[index].colorImage.color);
+                Debug.Log(colorListItems[index].colorImage.color);
 
                 SelectedColorIndex = index;
 
