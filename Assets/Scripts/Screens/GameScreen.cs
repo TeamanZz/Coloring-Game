@@ -10,7 +10,7 @@ namespace BizzyBeeGames.PictureColoring
     {
         #region Inspector Variables
 
-        public static GameScreen gameScreen;
+        public static GameScreen Instance;
 
         [Space]
         [SerializeField] private PictureArea pictureArea = null;
@@ -40,7 +40,7 @@ namespace BizzyBeeGames.PictureColoring
         #region Public Methods
         public void Awake()
         {
-            gameScreen = this;
+            Instance = this;
         }
 
         public override void Initialize()

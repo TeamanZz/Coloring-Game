@@ -45,7 +45,6 @@ public class CustomBucketToggle : MonoBehaviour
     public void SetToggleBackgroundColor(Color newColor)
     {
         toggleBackground.color = newColor;
-
     }
 
     public void InactiveButton()

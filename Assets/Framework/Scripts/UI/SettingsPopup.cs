@@ -22,6 +22,7 @@ namespace BizzyBeeGames
         {
             musicToggle.SetToggle(SoundManager.Instance.IsMusicOn, false);
             soundToggle.SetToggle(SoundManager.Instance.IsSoundEffectsOn, false);
+            holdSelectionToggle.SetToggle(true, false);
 
             musicToggle.OnValueChanged += OnMusicValueChanged;
             soundToggle.OnValueChanged += OnSoundEffectsValueChanged;
@@ -44,8 +45,8 @@ namespace BizzyBeeGames
 
         private void OnHoldSelectionValueChanged(bool isOn)
         {
-            if (GameScreen.gameScreen != null)
-                GameScreen.gameScreen.SetHoldSelectednOff(isOn);
+            // if (GameScreen.Instance != null)
+            GameScreen.Instance.SetHoldSelectednOff(isOn);
         }
         #endregion
     }
