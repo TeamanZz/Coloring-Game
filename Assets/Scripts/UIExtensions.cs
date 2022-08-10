@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public static class UIExtensions
@@ -66,25 +67,36 @@ public static class UIExtensions
     /// <param name="axis">Scroll Orientation</param>
     public static void ScrollToCenter(this ScrollRect scrollRect, RectTransform target, RectTransform.Axis axis = RectTransform.Axis.Vertical)
     {
-        // The scroll rect's view's space is used to calculate scroll position
+        var positions = GetScrollPositions(scrollRect, target);
+
+        if (axis == RectTransform.Axis.Vertical)
+        {     
+            scrollRect.verticalNormalizedPosition = positions.Item2;
+        }
+        else
+        {
+            scrollRect.horizontalNormalizedPosition = positions.Item1;
+        }
+    }
+
+    public static Tuple<float, float> GetScrollPositions(this ScrollRect scrollRect, RectTransform target)
+    {
         var view = scrollRect.viewport ?? scrollRect.GetComponent<RectTransform>();
 
         // Calcualte the scroll offset in the view's space
         var viewRect = view.rect;
         var elementBounds = target.TransformBoundsTo(view);
 
-        // Normalize and apply the calculated offset
-        if (axis == RectTransform.Axis.Vertical)
-        {
-            var offset = viewRect.center.y - elementBounds.center.y;
-            var scrollPos = scrollRect.verticalNormalizedPosition - scrollRect.NormalizeScrollDistance(1, offset);
-            scrollRect.verticalNormalizedPosition = Mathf.Clamp(scrollPos, 0, 1);
-        }
-        else
-        {
-            var offset = viewRect.center.x - elementBounds.center.x;
-            var scrollPos = scrollRect.horizontalNormalizedPosition - scrollRect.NormalizeScrollDistance(0, offset);
-            scrollRect.horizontalNormalizedPosition = Mathf.Clamp(scrollPos, 0, 1);
-        }
+
+        var offset = viewRect.center.y - elementBounds.center.y;
+        var scrollPos = scrollRect.verticalNormalizedPosition - scrollRect.NormalizeScrollDistance(1, offset);
+        float vertical = Mathf.Clamp(scrollPos, 0, 1);
+
+        offset = viewRect.center.x - elementBounds.center.x;
+        scrollPos = scrollRect.horizontalNormalizedPosition - scrollRect.NormalizeScrollDistance(0, offset);
+        float horizontal = Mathf.Clamp(scrollPos, 0, 1);
+
+
+        return new Tuple<float, float>(horizontal, vertical);
     }
 }

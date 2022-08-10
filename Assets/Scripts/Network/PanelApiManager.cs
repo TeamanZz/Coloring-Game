@@ -48,15 +48,28 @@ public class PanelApiManager : SaveableManager<PanelApiManager>
 
             RestClient.GetArray<Banner>(_apiLink + $"/banner/get?lang={lang}&country={geo.countryCode}").Then(response =>
             {
-                var newBanners = Banners != null ? response.Where(x => !Banners.Any(b => b.id == x.id)).ToList() : response.ToList();
+                if (response.Length == 0)
+                    Banners = new List<Banner>();
 
-                for (int i = 0; i < newBanners.Count; i++)
+                if (Banners != null)
                 {
-                    newBanners[i].getDate = DateTime.UtcNow;
-                    Banners.Add(newBanners[i]);
-                }
+                    var newBanners = response.Where(x => !Banners.Any(b => b.id == x.id)).ToList();
 
-                OnBannersRefreshed?.Invoke();
+                    for (int i = 0; i < newBanners.Count; i++)
+                    {
+                        newBanners[i].getDate = DateTime.UtcNow;
+                        Banners.Add(newBanners[i]);
+                    }
+
+                    OnBannersRefreshed?.Invoke();
+                }
+                else
+                {
+                    Banners = response.ToList();
+                }
+            }).Catch(e =>
+            {
+                Banners = new List<Banner>();
             });
         });
     }

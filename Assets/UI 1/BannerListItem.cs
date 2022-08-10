@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewsListItem : RecyclableListItem<Banner>
+public class BannerListItem : RecyclableListItem<Banner>
 {
 
 	[SerializeField] private TextMeshProUGUI titleText = null;
@@ -14,7 +14,7 @@ public class NewsListItem : RecyclableListItem<Banner>
 
     [SerializeField] private Image image = null;
 
-    private Banner banner;
+    public Banner BannerInfo { get; private set; }
 
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class NewsListItem : RecyclableListItem<Banner>
 
     private void OpenUrl()
     {
-        Application.OpenURL(banner.link);
+        Application.OpenURL(BannerInfo.link);
     }
 
     public override void Removed()
@@ -37,13 +37,15 @@ public class NewsListItem : RecyclableListItem<Banner>
 
     public override void Setup(Banner banner)
     {
-        this.banner = banner;
+        this.BannerInfo = banner;
 
         string url = PanelApiManager.Instance.BannerImage(banner.id);
 
         Davinci.get().load(url).into(image).start();
 
-        titleText.text = banner.name;
-        descriptionText.text = banner.description;
+        if(titleText)
+            titleText.text = banner.name;
+        if(descriptionText)
+            descriptionText.text = banner.description;
     }
 }

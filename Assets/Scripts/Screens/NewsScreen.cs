@@ -10,7 +10,7 @@ namespace BizzyBeeGames.PictureColoring
     {
         #region Inspector Variables
 
-        [SerializeField] private NewsListItem bannerItemPrefab = null;
+        [SerializeField] private BannerListItem bannerItemPrefab = null;
         [SerializeField] private GridLayoutGroup bannerListContainer = null;
         #endregion
 
@@ -29,7 +29,12 @@ namespace BizzyBeeGames.PictureColoring
 
         private void SetupBannerList()
         {
-           var banners = PanelApiManager.Instance.Banners.Where(b => b.Type == BannerType.News && (DateTime.UtcNow - b.getDate).Days <= b.lifetime).ToArray();
+            for (int i = 0; i < bannerListContainer.transform.childCount; i++)
+            {
+                Destroy(bannerListContainer.transform.GetChild(i).gameObject);
+            }
+
+            var banners = PanelApiManager.Instance.Banners.Where(b => b.Type == BannerType.News && (DateTime.UtcNow - b.getDate).Days <= b.lifetime).ToArray();
 
             for (int i = 0; i < banners.Length; i++)
             {
