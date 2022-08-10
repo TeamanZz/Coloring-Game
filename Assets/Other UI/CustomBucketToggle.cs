@@ -15,6 +15,8 @@ public class CustomBucketToggle : MonoBehaviour
 
     public Color inactiveBackgroundColor;
 
+    public Color lastClickedColor;
+
     public Image toggleBackground;
     public Image iconColor;
     public Image countView;
@@ -38,13 +40,14 @@ public class CustomBucketToggle : MonoBehaviour
             return;
         }
 
-        toggleBackground.color = isSelected ? activeColor : inactiveColor;
-        iconColor.color = isSelected ? inactiveColor : Color.white;
+        toggleBackground.color = isSelected ? lastClickedColor : inactiveColor;
+        iconColor.color = isSelected ? inactiveColor : activeColor;
     }
 
     public void SetToggleBackgroundColor(Color newColor)
     {
-        toggleBackground.color = newColor;
+        if (Toggle.isOn)
+            toggleBackground.color = newColor;
     }
 
     public void InactiveButton()

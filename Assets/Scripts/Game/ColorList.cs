@@ -57,7 +57,7 @@ namespace BizzyBeeGames.PictureColoring
 
                     colorListItem.Setup(color, i + 1);
                     colorListItem.SetSelected(i == selectedColorIndex);
-                    CustomBucketToggle.Instance.SetToggleBackgroundColor(colorListItems[selectedColorIndex].colorImage.color);
+                    CustomBucketToggle.Instance.lastClickedColor = colorListItems[selectedColorIndex].colorImage.color;
 
                     if (CheckHideCompleted(i) == false)
                         copyColorList.Add(colorListItem);
@@ -155,6 +155,7 @@ namespace BizzyBeeGames.PictureColoring
             {
                 colorListItems[SelectedColorIndex].SetSelected(false);
                 colorListItems[index].SetSelected(true);
+                CustomBucketToggle.Instance.lastClickedColor = colorListItems[index].colorImage.color;
                 CustomBucketToggle.Instance.SetToggleBackgroundColor(colorListItems[index].colorImage.color);
 
                 SelectedColorIndex = index;
@@ -180,6 +181,7 @@ namespace BizzyBeeGames.PictureColoring
                 // Set the current selected ColorListItem to un-selected and select the new one
                 colorListItems[SelectedColorIndex].SetSelected(false);
                 colorListItems[index].SetSelected(true);
+                CustomBucketToggle.Instance.lastClickedColor = colorListItems[index].colorImage.color;
                 CustomBucketToggle.Instance.SetToggleBackgroundColor(colorListItems[index].colorImage.color);
                 Debug.Log(colorListItems[index].colorImage.color);
 
