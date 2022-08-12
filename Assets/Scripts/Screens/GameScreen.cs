@@ -31,6 +31,12 @@ namespace BizzyBeeGames.PictureColoring
         [SerializeField] private CanvasGroup notificationContainer = null;
         [SerializeField] private Text notificationText = null;
 
+        private LevelData activeLevelData;
+        private int loadId;
+        [SerializeField] private RectTransform pictureContainer = null;
+        [SerializeField] private PictureCreator pictureCreator = null;
+        [SerializeField] private float containerSize = 0f;
+
         [Header("Others UI")]
         [Space]
         [SerializeField] private SizeReturner sizeReturner;
@@ -280,13 +286,13 @@ namespace BizzyBeeGames.PictureColoring
         /// </summary>
         private void LevelCompleted(bool hintAwarded, bool coinsAwarded)
         {
-            LevelData activeLevelData = GameManager.Instance.ActiveLevelData;
+            activeLevelData = GameManager.Instance.ActiveLevelData;
 
             if (activeLevelData != null)
             {
                 // Tell PictureArea the level is completed
                 pictureArea.NotifyLevelCompleted();
-
+                SetThumbnaiImage();
                 // Show the reward containers if hints/coins where rewarded
                 awardedHintTextContainer.SetActive(hintAwarded);
                 awardedCoinsTextContainer.SetActive(coinsAwarded);
@@ -314,6 +320,47 @@ namespace BizzyBeeGames.PictureColoring
                 levelCompleteUI.interactable = true;
                 levelCompleteUI.blocksRaycasts = true;
             }
+        }
+
+        private void SetThumbnaiImage()
+        {
+            loadId = LoadManager.Instance.LoadLevel(activeLevelData, OnLoadManagerFinished);
+
+            if (loadId == 0)
+            {
+                // loadId of 0 means the LevelData is already loaded and ready to use
+                SetupImages();
+            }
+
+        }
+
+        private void OnLoadManagerFinished(LevelData levelData, bool success)
+        {
+            if (success)
+            {
+                SetupImages();
+            }
+        }
+
+
+
+        private void SetupImages()
+        {
+            LevelFileData levelFileData = activeLevelData.LevelFileData;
+
+            float imageWidth = levelFileData.imageWidth;
+            float imageHeight = levelFileData.imageHeight;
+            float xScale = imageWidth >= imageHeight ? 1f : imageWidth / imageHeight;
+            float yScale = imageWidth <= imageHeight ? 1f : imageHeight / imageWidth;
+
+            pictureContainer.sizeDelta = new Vector2(containerSize * xScale, containerSize * yScale);
+
+            float pictureScale = Mathf.Min(pictureContainer.rect.width / imageWidth, pictureContainer.rect.height / imageHeight, 1f);
+
+            pictureCreator.RectT.sizeDelta = new Vector2(imageWidth, imageHeight);
+            pictureCreator.RectT.localScale = new Vector3(pictureScale, pictureScale, 1f);
+
+            pictureCreator.Setup(activeLevelData);
         }
 
 
