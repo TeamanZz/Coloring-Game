@@ -9,16 +9,15 @@ namespace Assets.Scripts.Network.Models
         public string name;
         public string description;
         public string link;
-        public int category_id;
+        public int categoryId;
         public string lang;
-        public int lifetime;
-        public DateTime getDate;
+        public DateTime expires;
 
         public BannerType Type
         {
             get
             {
-                return (BannerType)category_id;
+                return (BannerType)categoryId;
             }
         }
     }

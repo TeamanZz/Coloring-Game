@@ -48,4 +48,9 @@ public class BannerListItem : RecyclableListItem<Banner>
         if(descriptionText)
             descriptionText.text = banner.description;
     }
+
+    public void SetupPlaceholder(Sprite sprite)
+    {
+        image.sprite = sprite;
+    }
 }

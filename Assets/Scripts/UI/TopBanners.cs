@@ -1,19 +1,24 @@
 using Assets.Scripts.Network.Models;
-using System;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(ScrollRect))]
 public class TopBanners : MonoBehaviour
 {
+    [Header("Banner")]
+    [SerializeField] private Sprite _placeholderSprite;
     [SerializeField] private BannerListItem _bannerItemPrefab = null;
-    [SerializeField] private float _changeDelay = 2f;
 
+    [Header("Swipe settings")]
+    [SerializeField] private float _changeDelay = 2f;
     [SerializeField] private float _moveTime = .5f;
 
     private ScrollRect _rect;
+
+    private List<BannerListItem> _bannerList = new List<BannerListItem>();
 
     private float _t = 0f;
     private int _selectedIndex = 0;
@@ -25,6 +30,9 @@ public class TopBanners : MonoBehaviour
 
     private void Update()
     {
+        if (_bannerList != null || _bannerList.Count == 0 || _rect.content.childCount == 0)
+            return;
+
         _t += Time.deltaTime;
 
         if(_t >= _changeDelay)
@@ -36,6 +44,9 @@ public class TopBanners : MonoBehaviour
 
     private void ScrollNext()
     {
+        if (_bannerList != null || _bannerList.Count == 0 || _rect.content.childCount == 0)
+            return;
+
         _selectedIndex++;
 
         if (_selectedIndex > (_rect.content.childCount - 1))
@@ -54,6 +65,8 @@ public class TopBanners : MonoBehaviour
 
     private void SetupBannerList()
     {
+        _bannerList.Clear();
+
         if (_selectedIndex > _rect.content.childCount)
             _selectedIndex = 0;
 
@@ -62,11 +75,20 @@ public class TopBanners : MonoBehaviour
             Destroy(_rect.content.GetChild(i).gameObject);
         }
 
-        var banners = PanelApiManager.Instance.Banners.Where(b => b.Type == BannerType.Top && (DateTime.UtcNow - b.getDate).Days <= b.lifetime).ToArray();
+        var banners = PanelApiManager.Instance.Banners.Where(b => b.Type == BannerType.Top).ToArray();
 
-        for (int i = 0; i < banners.Length; i++)
+        if(banners.Length > 0)
         {
-            Instantiate(_bannerItemPrefab, _rect.content).Setup(banners[i]);
+            for (int i = 0; i < banners.Length; i++)
+            {
+                 var banner = Instantiate(_bannerItemPrefab, _rect.content);
+                 banner.Setup(banners[i]);
+                _bannerList.Add(banner);
+            }
+        }
+        else
+        {
+            Instantiate(_bannerItemPrefab, _rect.content).SetupPlaceholder(_placeholderSprite);
         }
     }
 }

@@ -2,17 +2,16 @@ using Assets.Scripts.Network.Models;
 using Assets.Scripts.Network.Utils;
 using BizzyBeeGames;
 using Newtonsoft.Json;
-using Proyecto26;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using JeffreyLanters.WebRequests;
 using UnityEngine;
 
 public class PanelApiManager : SaveableManager<PanelApiManager>
 {
     public override string SaveId => nameof(PanelApiManager);
 
-    [SerializeField] private string _apiLink = "http://165.227.147.239/api/";
+    [SerializeField] private string _apiLink = "http://localhost/api";
     [SerializeField] private string _ipService = "http://ip-api.com/json";
 
     public List<Banner> Banners { get; private set; }
@@ -31,47 +30,49 @@ public class PanelApiManager : SaveableManager<PanelApiManager>
 
     public void Refresh()
     {
-        RefreshBanners();
+        RefreshBannersAsync();
     }
 
-    public string BannerImage(int id) => _apiLink + $"/banner/get_file?id={id}";
+    public string BannerImage(int id) => _apiLink + $"/data/banner/image/{id}";
 
-    public void RefreshBanners()
+    public async void RefreshBannersAsync()
     {
         string lang = Lang.DeviceLang();
 
-        RestClient.Get(_ipService).Then(response =>
+        var geo = new GeoData();
+
+        try
         {
-            var geo = JsonUtility.FromJson<GeoData>(response.Text);
+            var response = await new WebRequest(_ipService).Send();
+            geo = response.Json<GeoData>();
+        }
+        catch (WebRequestException exception)
+        {
+            Debug.Log($"Error {exception.httpStatusCode} while fetching {exception.url}");
+        }
 
-            Banner[] banners = new Banner[0];
-
-            RestClient.GetArray<Banner>(_apiLink + $"/banner/get?lang={lang}&country={geo.countryCode}").Then(response =>
+        try
+        {
+            string matchJson = JsonConvert.SerializeObject(new Match()
             {
-                if (response.Length == 0)
-                    Banners = new List<Banner>();
-
-                if (Banners != null)
-                {
-                    var newBanners = response.Where(x => !Banners.Any(b => b.id == x.id)).ToList();
-
-                    for (int i = 0; i < newBanners.Count; i++)
-                    {
-                        newBanners[i].getDate = DateTime.UtcNow;
-                        Banners.Add(newBanners[i]);
-                    }
-
-                    OnBannersRefreshed?.Invoke();
-                }
-                else
-                {
-                    Banners = response.ToList();
-                }
-            }).Catch(e =>
-            {
-                Banners = new List<Banner>();
+                Geo = geo.countryCode,
+                Lang = lang,
             });
-        });
+
+            var response = await new WebRequest(_apiLink + "/data/banner/match") {
+                method = RequestMethod.Post,
+                contentType = ContentType.ApplicationJson,
+                body = matchJson
+            }.Send();
+
+            var banners = JsonConvert.DeserializeObject<List<Banner>>(response.webRequestResponseText);
+
+            Banners = banners;
+
+        }
+        catch { }
+
+        OnBannersRefreshed?.Invoke();
     }
 
     public override Dictionary<string, object> Save()

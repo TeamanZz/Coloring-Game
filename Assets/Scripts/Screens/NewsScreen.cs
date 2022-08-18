@@ -1,5 +1,4 @@
 using Assets.Scripts.Network.Models;
-using System;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,7 +33,7 @@ namespace BizzyBeeGames.PictureColoring
                 Destroy(bannerListContainer.transform.GetChild(i).gameObject);
             }
 
-            var banners = PanelApiManager.Instance.Banners.Where(b => b.Type == BannerType.News && (DateTime.UtcNow - b.getDate).Days <= b.lifetime).ToArray();
+            var banners = PanelApiManager.Instance.Banners.Where(b => b.Type == BannerType.News).ToArray();
 
             for (int i = 0; i < banners.Length; i++)
             {
