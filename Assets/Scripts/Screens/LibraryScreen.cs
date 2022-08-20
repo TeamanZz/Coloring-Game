@@ -74,7 +74,7 @@ namespace BizzyBeeGames.PictureColoring
             categoryListItemPool.ReturnAllObjectsToPool();
             activeCategoryListItems.Clear();
 
-            for (int i = 0; i < GameManager.Instance.Categories.Count + 1; i++)
+            for (int i = 0; i < GameManager.Instance.Categories.Count; i++)
             {
                 CategoryListItem categoryListItem = categoryListItemPool.GetObject<CategoryListItem>();
 

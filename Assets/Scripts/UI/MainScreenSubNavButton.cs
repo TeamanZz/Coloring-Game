@@ -32,7 +32,7 @@ namespace BizzyBeeGames.PictureColoring
             activeIcon.SetActive(isSelected);
             buttonFade.SetActive(isSelected);
             activeIcon.transform.DOScale(endScale, .5f).From(startScale).SetEase(Ease.InOutCubic);
-            buttonFade.transform.DOScale(endScale, .5f).From(startScale).SetEase(Ease.InOutCubic);
+            buttonFade.transform.DOScale(endScale, .65f).From(startScale).SetEase(Ease.InOutCubic);
 
             buttonText.color = isSelected ? selectedColor : normalColor;
         }

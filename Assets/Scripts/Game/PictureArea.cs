@@ -31,8 +31,8 @@ namespace BizzyBeeGames.PictureColoring
         [SerializeField] private Sprite borderSprite;
 
         [Space]
-        [Range(1, 0)] [SerializeField] private float numberStartAppearing = 0f;
-        [Range(1, 0)] [SerializeField] private float numberEndAppearing = 0f;
+        [Range(1, 0)][SerializeField] private float numberStartAppearing = 0f;
+        [Range(1, 0)][SerializeField] private float numberEndAppearing = 0f;
 
         #endregion
 
@@ -133,7 +133,7 @@ namespace BizzyBeeGames.PictureColoring
                 colorNumbersText.enabled = true;
 
                 pictureCreator.Setup(activeLevelData, regionBackground);
-                pictureCreator.SetSelectedColor(0);
+                pictureCreator.SetSelectedColor(selectedColorIndex);
 
                 pictureContainer.gameObject.SetActive(true);
             }

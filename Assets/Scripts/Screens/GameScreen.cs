@@ -198,6 +198,7 @@ namespace BizzyBeeGames.PictureColoring
         /// </summary>
         private void OnLevelLoadFinished(string eventId, object[] data)
         {
+            Debug.Log("finished");
             // Hide the loading indicator
             levelLoadingIndicator.SetActive(false);
 
@@ -206,11 +207,10 @@ namespace BizzyBeeGames.PictureColoring
 
             if (success)
             {
-                int firstSelectedColor = 0;
-
                 // Setup the picture and the color list items
-                pictureArea.Setup(firstSelectedColor);
-                colorList.Setup(firstSelectedColor);
+                int firstColorIndex = colorList.GetFirstColorIndex();
+                colorList.Setup();
+                pictureArea.Setup(firstColorIndex);
 
                 ResetUI();
             }

@@ -16,9 +16,9 @@ namespace BizzyBeeGames.PictureColoring
 
         #region Member Variables
 
-        private ObjectPool colorListItemPool;
+        public ObjectPool colorListItemPool;
         private ScrollRect scrollRect;
-        [SerializeField] private List<ColorListItem> colorListItems;
+        public List<ColorListItem> colorListItems;
         [SerializeField] private List<ColorListItem> copyColorList;
 
         #endregion
@@ -39,12 +39,35 @@ namespace BizzyBeeGames.PictureColoring
             scrollRect = GetComponent<ScrollRect>();
         }
 
-        public void Setup(int selectedColorIndex)
+        public int GetFirstColorIndex()
+        {
+            LevelData activeLevelData = GameManager.Instance.ActiveLevelData;
+
+            for (int i = 0; i < activeLevelData.LevelFileData.colors.Count; i++)
+            {
+                if (CheckCompletedByIndex(i) == false)
+                    return i;
+            }
+            return 0;
+        }
+
+        private bool CheckCompletedByIndex(int colorIndex)
+        {
+            LevelData activeLevelData = GameManager.Instance.ActiveLevelData;
+
+            if (activeLevelData != null && colorIndex < activeLevelData.LevelFileData.colors.Count && activeLevelData.IsColorComplete(colorIndex))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public void Setup()
         {
             Clear();
 
             LevelData activeLevelData = GameManager.Instance.ActiveLevelData;
-
             if (activeLevelData != null)
             {
                 // Setup each color list item
@@ -54,20 +77,22 @@ namespace BizzyBeeGames.PictureColoring
                     ColorListItem colorListItem = colorListItemPool.GetObject<ColorListItem>();
 
                     colorListItems.Add(colorListItem);
-
                     colorListItem.Setup(color, i + 1);
-                    colorListItem.SetSelected(i == selectedColorIndex);
-                    CustomBucketToggle.Instance.lastClickedColor = colorListItems[selectedColorIndex].colorImage.color;
 
                     if (CheckHideCompleted(i) == false)
+                    {
                         copyColorList.Add(colorListItem);
-
+                        if (copyColorList.Count == 1)
+                        {
+                            SelectedColorIndex = i;
+                            colorListItem.SetSelected(true);
+                            CustomBucketToggle.Instance.lastClickedColor = colorListItems[i].colorImage.color;
+                        }
+                    }
                     colorListItem.Index = i;
                     colorListItem.OnListItemClicked = OnColorListItemClicked;
                 }
             }
-
-            SelectedColorIndex = selectedColorIndex;
         }
 
         public void Clear()
