@@ -5,90 +5,101 @@ using UnityEngine.UI;
 
 namespace BizzyBeeGames
 {
-	public class AdjustRectTransformForSafeArea : UIMonoBehaviour
-	{
-		#region Inspector Variables
+    public class AdjustRectTransformForSafeArea : UIMonoBehaviour
+    {
+        #region Inspector Variables
 
-		[SerializeField] protected bool adjustForBannerAd;
+        [SerializeField] protected bool adjustForBannerAd;
 
-		#endregion
+        #endregion
 
-		#region Unity Methods
+        #region Unity Methods
 
-		protected virtual void Start()
-		{
-			AdjustScreen();
+        protected virtual void Start()
+        {
+            if (adjustForBannerAd)
+            {
+                return;
+            }
+            AdjustScreen();
 
-			if (!MobileAdsManager.Instance.IsInitialized)
-			{
-				MobileAdsManager.Instance.OnInitialized += OnAdManagerInitialized;
-			}
+            if (!MobileAdsManager.Instance.IsInitialized)
+            {
+                MobileAdsManager.Instance.OnInitialized += OnAdManagerInitialized;
+            }
 
-			// Adjust the screen when ads are removed so the banner space goes away
-			MobileAdsManager.Instance.OnAdsRemoved += AdjustScreen;
-		}
+            // Adjust the screen when ads are removed so the banner space goes away
+            MobileAdsManager.Instance.OnAdsRemoved += AdjustScreen;
+        }
 
-		#endregion
+        #endregion
 
-		#region Private Methods
+        #region Private Methods
 
-		protected void AdjustScreen()
-		{
-			Rect safeArea = UnityEngine.Screen.safeArea;
+        protected void AdjustScreen()
+        {
+            if (!adjustForBannerAd)
+            {
+                return;
+            }
 
-			float yMin = safeArea.yMin;
-			float yMax = safeArea.yMax;
+            Rect safeArea = UnityEngine.Screen.safeArea;
 
-			#if UNITY_EDITOR
+            float yMin = safeArea.yMin;
+            float yMax = safeArea.yMax;
 
-			// In editor, if the screen width/height is set to iPhoneX then set the offsets as they would be on the iPhoneX
-			if (UnityEngine.Screen.width == 1125f && UnityEngine.Screen.height == 2436f)
-			{
-				yMin = 102;
-				yMax = 2304;
-			}
+#if UNITY_EDITOR
 
-			#endif
+            // In editor, if the screen width/height is set to iPhoneX then set the offsets as they would be on the iPhoneX
+            if (UnityEngine.Screen.width == 1125f && UnityEngine.Screen.height == 2436f)
+            {
+                yMin = 102;
+                yMax = 2304;
+            }
 
-			float topAreaHeightInPixels		= yMin;
-			float bottomAreaHeightInPixels	= UnityEngine.Screen.height - yMax;
+#endif
 
-			#if BBG_UNITYADS || BBG_ADMOB
-			if (adjustForBannerAd && MobileAdsManager.Instance.AreBannerAdsEnabled)
-			{
-				float bannerHeight = MobileAdsManager.Instance.GetBannerHeightInPixels();
+            float topAreaHeightInPixels = yMin;
+            float bottomAreaHeightInPixels = UnityEngine.Screen.height - yMax;
 
-				switch (MobileAdsManager.Instance.GetBannerPosition())
-				{
-					case MobileAdsSettings.BannerPosition.Top:
-					case MobileAdsSettings.BannerPosition.TopLeft:
-					case MobileAdsSettings.BannerPosition.TopRight:
-						topAreaHeightInPixels += bannerHeight;
-						break;
-					case MobileAdsSettings.BannerPosition.Bottom:
-					case MobileAdsSettings.BannerPosition.BottomLeft:
-					case MobileAdsSettings.BannerPosition.BottomRight:
-						bottomAreaHeightInPixels += bannerHeight;
-						break;
-				}
-			}
-			#endif
+#if BBG_UNITYADS || BBG_ADMOB
+                			if (adjustForBannerAd && MobileAdsManager.Instance.AreBannerAdsEnabled)
+                			{
+                				float bannerHeight = MobileAdsManager.Instance.GetBannerHeightInPixels();
 
-			float scale			= 1f / Utilities.GetCanvas(transform).scaleFactor;
-			float topOffset		= topAreaHeightInPixels * scale;
-			float bottomOffset	= bottomAreaHeightInPixels * scale;
+                				switch (MobileAdsManager.Instance.GetBannerPosition())
+                				{
+                					case MobileAdsSettings.BannerPosition.Top:
+                					case MobileAdsSettings.BannerPosition.TopLeft:
+                					case MobileAdsSettings.BannerPosition.TopRight:
+                						topAreaHeightInPixels += bannerHeight;
+                						break;
+                					case MobileAdsSettings.BannerPosition.Bottom:
+                					case MobileAdsSettings.BannerPosition.BottomLeft:
+                					case MobileAdsSettings.BannerPosition.BottomRight:
+                						bottomAreaHeightInPixels += bannerHeight;
+                						break;
+                				}
+                			}
+#endif
 
-			RectT.offsetMax = new Vector2(RectT.offsetMax.x, -topOffset);
-			RectT.offsetMin = new Vector2(RectT.offsetMin.x, bottomOffset);
-		}
+            float scale = 1f / Utilities.GetCanvas(transform).scaleFactor;
+            float topOffset = topAreaHeightInPixels * scale;
+            float bottomOffset = bottomAreaHeightInPixels * scale;
 
-		private void OnAdManagerInitialized()
-		{
-			MobileAdsManager.Instance.OnInitialized -= OnAdManagerInitialized;
+            RectT.offsetMax = new Vector2(RectT.offsetMax.x, -topOffset);
+            RectT.offsetMin = new Vector2(RectT.offsetMin.x, bottomOffset);
 
-			AdjustScreen();
-		}
 
-		#endregion
-	}
+        }
+
+        private void OnAdManagerInitialized()
+        {
+            MobileAdsManager.Instance.OnInitialized -= OnAdManagerInitialized;
+
+            AdjustScreen();
+        }
+
+        #endregion
+    }
 }

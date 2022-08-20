@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class BannerListItem : RecyclableListItem<Banner>
 {
 
-	[SerializeField] private TextMeshProUGUI titleText = null;
-	[SerializeField] private TextMeshProUGUI descriptionText = null;
+    [SerializeField] private TextMeshProUGUI titleText = null;
+    [SerializeField] private TextMeshProUGUI descriptionText = null;
     [SerializeField] private Button goButton;
 
     [SerializeField] private Image image = null;
@@ -18,7 +18,7 @@ public class BannerListItem : RecyclableListItem<Banner>
 
     private void Awake()
     {
-        goButton.onClick.AddListener(OpenUrl);  
+        goButton.onClick.AddListener(OpenUrl);
     }
 
     public override void Initialize(Banner dataObject)
@@ -27,12 +27,13 @@ public class BannerListItem : RecyclableListItem<Banner>
 
     private void OpenUrl()
     {
-        Application.OpenURL(BannerInfo.link);
+        if (BannerInfo != null)
+            Application.OpenURL(BannerInfo.link);
     }
 
     public override void Removed()
     {
-        
+
     }
 
     public override void Setup(Banner banner)
@@ -43,9 +44,9 @@ public class BannerListItem : RecyclableListItem<Banner>
 
         Davinci.get().load(url).into(image).start();
 
-        if(titleText)
+        if (titleText)
             titleText.text = banner.name;
-        if(descriptionText)
+        if (descriptionText)
             descriptionText.text = banner.description;
     }
 
