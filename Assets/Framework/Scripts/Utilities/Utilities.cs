@@ -129,7 +129,6 @@ namespace BizzyBeeGames
 
         public static Canvas GetCanvas(Transform transform)
         {
-            Debug.Log("Getcanvas");
             if (transform == null)
             {
                 return null;

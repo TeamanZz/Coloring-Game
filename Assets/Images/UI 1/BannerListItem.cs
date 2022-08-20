@@ -28,7 +28,9 @@ public class BannerListItem : RecyclableListItem<Banner>
     private void OpenUrl()
     {
         if (BannerInfo != null)
+        {
             Application.OpenURL(BannerInfo.link);
+        }
     }
 
     public override void Removed()
