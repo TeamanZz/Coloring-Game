@@ -18,7 +18,6 @@ namespace BizzyBeeGames.PictureColoring
         [Header("Values")]
         [SerializeField] private bool awardHints = false;
         [SerializeField] private int numLevelsBetweenAds = 0;
-        [SerializeField] private int bucketsCount;
 
         #endregion
 
@@ -89,12 +88,12 @@ namespace BizzyBeeGames.PictureColoring
 
             ScreenManager.Instance.OnSwitchingScreens += OnSwitchingScreens;
 
-            bucketsCountText.text = bucketsCount.ToString();
         }
 
         private void Start()
         {
-            customBucketToggle.Toggle.onValueChanged.AddListener(SetBuckketActive);
+            customBucketToggle.Toggle.onValueChanged.AddListener(SetBucketActive);
+            UpdateBucketUI();
         }
 
         #endregion
@@ -111,16 +110,17 @@ namespace BizzyBeeGames.PictureColoring
         [ContextMenu("Add Bucket Point")]
         public void AddBucketPoint()
         {
-            bucketsCount++;
+            CurrencyManager.Instance.Give("buckets", 1); ;
             UpdateBucketUI();
         }
 
         public void UpdateBucketUI()
         {
-            if (bucketsCount > 0)
+            int count = CurrencyManager.Instance.GetAmount("buckets");
+            if (count > 0)
             {
                 customBucketToggle.countView.gameObject.SetActive(true);
-                bucketsCountText.text = bucketsCount.ToString();
+                bucketsCountText.text = count.ToString();
 
                 customBucketToggle.isActive = true;
                 customBucketToggle.ButtonProcessing(false);
@@ -135,8 +135,9 @@ namespace BizzyBeeGames.PictureColoring
             }
         }
 
-        public void SetBuckketActive(bool active)
+        public void SetBucketActive(bool active)
         {
+            int bucketsCount = CurrencyManager.Instance.GetAmount("buckets");
             if (active && bucketsCount > 0)
             {
                 customBucketToggle.isActive = true;
@@ -284,23 +285,15 @@ namespace BizzyBeeGames.PictureColoring
 
                 if (region != null && region.colorIndex == colorIndex && !activeLevelData.LevelSaveData.coloredRegions.Contains(region.id))
                 {
+                    int bucketsCount = CurrencyManager.Instance.GetAmount("buckets");
                     if (customBucketToggle.Toggle.isOn && bucketsCount > 0)
                     {
                         regionList = GetRegionListByColorIndex(colorIndex);
-                        bucketsCount--;
-                        bucketsCountText.text = bucketsCount.ToString();
+                        CurrencyManager.Instance.TrySpend("buckets", 1);
 
                         customBucketToggle.Toggle.isOn = false;
 
-                        //if (bucketsCount == 0)
-                        //{
-                        //    //customBucketToggle.isActive = false;
-                        //    //customBucketToggle.Toggle.interactable = false
-                            
-                        //}
-
                         UpdateBucketUI();
-
                     }
                     else
                     {
